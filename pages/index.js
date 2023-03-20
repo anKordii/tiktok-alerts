@@ -1,115 +1,71 @@
-import Head from 'next/head';
-import styles from '../styles/Home.module.css';
+import React, {useEffect} from "react";
+import { socket } from "@components/socket";
+import truncate from "@components/truncate";
+import toast, { Toaster } from 'react-hot-toast';
+import alertName from "@components/alertName";
+import alertImage from "@components/alertImage";
+import getAvatar from "@components/getAvatar";
 
 export default function Home() {
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+  useEffect(() => {
+    function onConnect() {
+      toast.success('Połączono z serwerem - TTVUpdates')
+    }
 
-      <main>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+    function onDisconnect() {
+      toast.error("Rozłączono z serwerem - TTVUpdates")
+    }
 
-        <p className={styles.description}>
-          Get started by editing <code>pages/index.js</code>
-        </p>
+    function onFooEvent(value) {
+      callNotify(value);
+    }
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+    socket.on('connect', onConnect);
+    socket.on('disconnect', onDisconnect);
+    socket.on('new-alert', onFooEvent);
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
+    return () => {
+      socket.off('connect', onConnect);
+      socket.off('disconnect', onDisconnect);
+      socket.off('new-alert', onFooEvent);
+    };
+  }, [])
+  
+  async function callNotify(value){
+    const avatar = await getAvatar(value.user_login);
 
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
+    notify(value, avatar)
+  }
 
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel" className={styles.logo} />
-        </a>
-      </footer>
-
-      <style jsx>{`
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        footer img {
-          margin-left: 0.5rem;
-        }
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          text-decoration: none;
-          color: inherit;
-        }
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
+  const notify = (data, avatar) => toast((t) => (
+    <div className="alert-box">
+      <div style={{marginRight: "10px"}} className="d-flex align-items-center">
+        <img src={avatar} className="avatar" width={35}/>
+      </div>
+      <div>
+        <h1>{truncate(data.user_login)}</h1>
+        <p>przesyła {alertName(data.type)}</p>
+      </div>
+      <div style={{marginLeft: "auto"}} className="d-flex">
+        <img src={`/images/${alertImage(data.type)}`} width={45} className="emoji"/>
+        <h1 className="emoji-amount">x{data.amount}</h1>
+      </div>
     </div>
-  )
+  ),{
+    duration: 3000,
+    style: {
+      borderRadius: '2rem',
+      background: 'linear-gradient(90deg, black, transparent)',
+      color: '#fff',
+      padding: 0
+    },
+  });
+
+  return (
+    <>
+      <Toaster 
+        position="top-left"
+      />
+    </>
+  );
 }
