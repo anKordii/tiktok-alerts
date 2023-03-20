@@ -47,7 +47,7 @@ export default function Home() {
         <p>przesyła {alertName(data.type)}</p>
       </div>
       <div style={{marginLeft: "auto"}} className="d-flex">
-        <img src={`/images/${alertImage(data.type)}`} width={45} className="emoji"/>
+        <img src={`/images/${alertImage(data.type)}`} width={45} className="emoji" style={{zIndex: 3}}/>
         <h1 className="emoji-amount">x{data.amount}</h1>
       </div>
     </div>
