@@ -2,7 +2,7 @@ const alertName = function (name) {
     let source;
     switch (name) {
       case "coffe":
-        source = "Kawke";
+        source = "Kawki";
         break;
       case "diamonds":
         source = "Diamenciki";
