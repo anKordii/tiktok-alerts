@@ -39,11 +39,11 @@ export default function Home() {
   async function callNotify(value){
     const avatar = await getAvatar(value.user_login);
 
-    if(value.amount > 50){
-      const audio = new Audio('/sound/alert.mp3');
-      audio.volume = 0.1;
-      audio.play();
-    }
+    // if(value.amount > 50){
+    //   const audio = new Audio('/sound/alert.mp3');
+    //   audio.volume = 0.1;
+    //   audio.play();
+    // }
     
     notify(value, avatar)
   }
