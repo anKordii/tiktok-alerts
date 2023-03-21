@@ -5,6 +5,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import alertName from "@components/alertName";
 import alertImage from "@components/alertImage";
 import getAvatar from "@components/getAvatar";
+import getPrices from "@components/getPrices";
 
 export default function Home() {
   useEffect(() => {
@@ -40,7 +41,7 @@ export default function Home() {
   //   setInterval(() => {
   //     callNotify({
   //       user_login: "3xanax",
-  //       amount: 5,
+  //       amount: 1,
   //       type: "rose"
   //     })
   //   }, 3000);
@@ -48,20 +49,25 @@ export default function Home() {
   
   async function callNotify(value){
     const avatar = await getAvatar(value.user_login);
+    const getPrice = getPrices(value.type);
+    
 
     // if(value.amount > 50){
     //   const audio = new Audio('/sound/alert.mp3');
     //   audio.volume = 0.1;
     //   audio.play();
     // }
+    if((getPrice * value.amount) > 20000){
+      return notify(value, avatar);
+    }
     
-    notify(value, avatar)
+    return notify(value, avatar, true)
   }
 
-  const notify = (data, avatar) => toast((t) => (
+  const notify = (data, avatar, isblur) => toast((t) => (
     <div className="alert-box">
       <div style={{marginRight: "10px"}} className="d-flex align-items-center">
-        <img src={avatar} className="avatar" width={55}/>
+        <img src={avatar} className="avatar" width={55} style={isblur && {filter: "blur(5px)"}}/>
       </div>
       <div>
         <h1>{truncate(data.user_login, 10)}</h1>
