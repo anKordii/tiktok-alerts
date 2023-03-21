@@ -22,6 +22,9 @@ const alertImage = function (name) {
     case "szampan":
       source = "szampan.gif";
       break;
+    case "lean":
+      source = "lean.gif";
+      break;
     default:
       source = "unknown.gif";
   }

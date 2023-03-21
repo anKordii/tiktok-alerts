@@ -6,6 +6,7 @@ body {
   margin: 0;
   color: #fff;
   font-family: 'Roboto', sans-serif;
+  /* background-color: black; */
 }
 .avatar{
     border-radius: 100%;
@@ -13,17 +14,17 @@ body {
     height: auto;
 }
 .alert-box{
-    min-width: 15rem;
+    min-width: 20rem;
     display: flex;
     align-items: center;
 }
 h1{
-    font-size: 1rem;
+    font-size: 1.25rem;
     margin: 0;
     padding: 0;
 }
 p{
-    font-size: 0.75rem;
+    font-size: 1rem;
     margin: 0;
     padding: 0;
 }
@@ -49,21 +50,21 @@ p{
     font-size: 2.50rem;
     color: white;
     position: absolute;
-    top: -7px;
-    right: -50px;
-    transform: rotate(353deg);
+    top: 2px;
+    margin-left: 15px;
+    transform: rotate(358deg);
     animation: zoom-in-zoom-out 1s ease infinite;
 }
 @keyframes zoom-in-zoom-out {
     0% {
-        transform: rotate(353deg) scale(1)
+        transform: rotate(358deg) scale(1)
     }
 
     50% {
-        transform: rotate(353deg) scale(1.25)
+        transform: rotate(358deg) scale(1.25)
     }
 
     to {
-        transform: rotate(353deg) scale(1)
+        transform: rotate(358deg) scale(1)
     }
 }

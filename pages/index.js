@@ -31,6 +31,7 @@ export default function Home() {
     };
   }, [])
   
+  
   async function callNotify(value){
     const avatar = await getAvatar(value.user_login);
 
@@ -40,19 +41,19 @@ export default function Home() {
   const notify = (data, avatar) => toast((t) => (
     <div className="alert-box">
       <div style={{marginRight: "10px"}} className="d-flex align-items-center">
-        <img src={avatar} className="avatar" width={35}/>
+        <img src={avatar} className="avatar" width={55}/>
       </div>
       <div>
         <h1>{truncate(data.user_login)}</h1>
         <p>przesyła {alertName(data.type)}</p>
       </div>
       <div style={{marginLeft: "auto"}} className="d-flex">
-        <img src={`/images/${alertImage(data.type)}`} width={45} className="emoji" style={{zIndex: 3}}/>
-        <h1 className="emoji-amount">x{data.amount}</h1>
+        <img src={`/images/${alertImage(data.type)}`} width={65} className="emoji" style={{zIndex: 3}}/>
+        <h1 className="emoji-amount" style={{textAlign: "right"}}>x{data.amount}</h1>
       </div>
     </div>
   ),{
-    duration: 3000,
+    duration: 30000000,
     style: {
       borderRadius: '2rem',
       background: 'linear-gradient(90deg, black, transparent)',
