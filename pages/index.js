@@ -36,6 +36,16 @@ export default function Home() {
     };
   }, [])
   
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     callNotify({
+  //       user_login: "3xanax",
+  //       amount: 5,
+  //       type: "rose"
+  //     })
+  //   }, 3000);
+  // }, [])
+  
   async function callNotify(value){
     const avatar = await getAvatar(value.user_login);
 
@@ -76,6 +86,9 @@ export default function Home() {
     <>
       <Toaster 
         position="top-left"
+        containerStyle={{
+          top: "50%",
+        }}
       />
     </>
   );
