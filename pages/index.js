@@ -59,7 +59,7 @@ export default function Home() {
       </div>
     </div>
   ),{
-    duration: 30000000,
+    duration: 3000,
     style: {
       borderRadius: '2rem',
       background: 'linear-gradient(90deg, black, transparent)',
