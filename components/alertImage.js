@@ -28,6 +28,9 @@ const alertImage = function (name) {
     case "ziolo":
       source = "ziolo.png";
       break;
+    case "duck":
+      source = "duck.gif";
+      break;
     default:
       source = "unknown.gif?v=1";
   }

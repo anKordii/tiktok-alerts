@@ -6,6 +6,7 @@ import alertName from "@components/alertName";
 import alertImage from "@components/alertImage";
 import getAvatar from "@components/getAvatar";
 import getPrices from "@components/getPrices";
+import getMeTime from "@components/getMeTime";
 
 export default function Home() {
   useEffect(() => {
@@ -20,6 +21,7 @@ export default function Home() {
     function onFooEvent(value) {
       callNotify(value);
     }
+
     function onRefreshEvent(){
       window.location.reload();
     }
@@ -42,29 +44,47 @@ export default function Home() {
   //     callNotify({
   //       user_login: "3xanax",
   //       amount: 1,
-  //       type: "rose"
+  //       type: "lean"
   //     })
-  //   }, 3000);
+  //   }, 6000);
   // }, [])
   
   async function callNotify(value){
     const avatar = await getAvatar(value.user_login);
     const getPrice = getPrices(value.type);
-    
+    const overallPrice = getPrice * value.amount;
 
-    // if(value.amount > 50){
-    //   const audio = new Audio('/sound/alert.mp3');
-    //   audio.volume = 0.1;
-    //   audio.play();
-    // }
-    if((getPrice * value.amount) > 19999){
-      return notify(value, avatar);
+    playSound(overallPrice);
+
+    if(overallPrice > 19999){
+      return notify(value, avatar, getMeTime(overallPrice));
     }
     
-    return notify(value, avatar, true)
+    return notify(value, avatar, getMeTime(overallPrice), true)
   }
 
-  const notify = (data, avatar, isblur) => toast((t) => (
+  function playSound(cost){
+
+    if(cost >= 5000000){
+      const audio = new Audio('/sound/5mln.mp3');
+      audio.volume = 0.1;
+      audio.play();
+
+      return;
+    }
+
+    if(cost >= 500000){
+      const audio = new Audio('/sound/500k.mp3');
+      audio.volume = 0.1;
+      audio.play();
+
+      return;
+    }
+
+    return;
+  }
+
+  const notify = (data, avatar, time, isblur) => toast((t) => (
     <div className="alert-box">
       <div style={{marginRight: "10px"}} className="d-flex align-items-center">
         <img src={avatar} className="avatar" width={55} style={isblur && {filter: "blur(5px)"}}/>
@@ -79,7 +99,7 @@ export default function Home() {
       </div>
     </div>
   ),{
-    duration: 3000,
+    duration: time,
     style: {
       borderRadius: '2rem',
       background: 'linear-gradient(90deg, black, transparent)',
