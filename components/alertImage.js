@@ -25,8 +25,11 @@ const alertImage = function (name) {
     case "lean":
       source = "lean.gif";
       break;
+    case "ziolo":
+      source = "ziolo.png";
+      break;
     default:
-      source = "unknown.gif";
+      source = "unknown.gif?v=1";
   }
   return source;
 };

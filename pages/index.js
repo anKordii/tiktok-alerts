@@ -50,7 +50,7 @@ export default function Home() {
         <img src={avatar} className="avatar" width={55}/>
       </div>
       <div>
-        <h1>{truncate(data.user_login)}</h1>
+        <h1>{truncate(data.user_login, 10)}</h1>
         <p>przesyła {alertName(data.type)}</p>
       </div>
       <div style={{marginLeft: "auto"}} className="d-flex">
