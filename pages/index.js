@@ -19,22 +19,28 @@ export default function Home() {
     function onFooEvent(value) {
       callNotify(value);
     }
+    function onRefreshEvent(){
+      window.location.reload();
+    }
 
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
     socket.on('new-alert', onFooEvent);
+    socket.on('refresh-overlay', onRefreshEvent);
 
     return () => {
       socket.off('connect', onConnect);
       socket.off('disconnect', onDisconnect);
       socket.off('new-alert', onFooEvent);
+      socket.off('refresh-overlay', onRefreshEvent);
     };
   }, [])
   
-  
   async function callNotify(value){
     const avatar = await getAvatar(value.user_login);
-
+    const audio = new Audio('/sound/alert.mp3');
+    audio.volume = 0.1;
+    audio.play();
     notify(value, avatar)
   }
 
