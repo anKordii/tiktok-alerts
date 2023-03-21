@@ -57,7 +57,7 @@ export default function Home() {
     //   audio.volume = 0.1;
     //   audio.play();
     // }
-    if((getPrice * value.amount) > 20000){
+    if((getPrice * value.amount) > 19999){
       return notify(value, avatar);
     }
     
