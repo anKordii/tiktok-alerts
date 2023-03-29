@@ -8,7 +8,7 @@ import getAvatar from "@components/getAvatar";
 import getPrices from "@components/getPrices";
 import getMeTime from "@components/getMeTime";
 
-export default function Home({ channel }) {
+export default function Home({ channel, mute }) {
   useEffect(() => {
     if (!channel) {
       toast.error("Zapomniałeś/aś o ?channel= w URL strony.", {
@@ -64,7 +64,6 @@ export default function Home({ channel }) {
   // }, [])
 
   async function callNotify(value) {
-    console.log(value.channel, channel);
     if (channel !== value.channel) {
       return;
     }
@@ -73,7 +72,9 @@ export default function Home({ channel }) {
     const getPrice = getPrices(value.type);
     const overallPrice = getPrice * value.amount;
 
-    playSound(overallPrice);
+    if(mute === null || mute === undefined){
+      playSound(overallPrice);
+    }
 
     if (overallPrice > 19999) {
       return notify(value, avatar, getMeTime(overallPrice));
@@ -157,10 +158,11 @@ export default function Home({ channel }) {
   );
 }
 export async function getServerSideProps({ query }) {
-  const { channel } = query;
+  const { channel, mute } = query;
   return {
     props: {
       channel: channel || null,
+      mute: mute || null
     },
   };
 }
