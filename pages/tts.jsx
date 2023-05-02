@@ -53,9 +53,10 @@ export default function Home({ channel }) {
       return;
     }
 
-    const audioPlayer = new Audio(`https://ai-cdn.oxynstudios.com/ai.mp3?v=${new Date().getTime()}`);
-    audioPlayer.load()
-    await audioPlayer.play()
+    document.querySelector("#radio").volume = 1;
+
+    document.querySelector('#radio').src = `https://ai-cdn.oxynstudios.com/ai.mp3?v=${new Date().getTime()}`;
+    document.querySelector("#radio").play();
   }
 
   return (
@@ -66,6 +67,9 @@ export default function Home({ channel }) {
           top: "50%",
         }}
       />
+      <audio id="radio" controls="" style="display: none;">
+        <source src="" />
+      </audio>
     </>
   );
 }
