@@ -67,7 +67,7 @@ export default function Home({ channel }) {
           top: "50%",
         }}
       />
-      <audio id="radio" controls="" style="display: none;">
+      <audio id="radio" controls="" style={{display: "none"}}>
         <source src="" />
       </audio>
     </>
