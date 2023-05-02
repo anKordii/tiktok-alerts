@@ -3,6 +3,7 @@ import { socket } from "@components/socket";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function Home({ channel }) {
+
   useEffect(() => {
     if (!channel) {
       toast.error("Zapomniałeś/aś o ?channel= w URL strony.", {
@@ -45,18 +46,21 @@ export default function Home({ channel }) {
       socket.off("new-tts", onFooEvent);
       socket.off("refresh-overlay", onRefreshEvent);
     };
+    
   }, []);
 
-  async function callNotify(value) {
+  function callNotify(value) {
     
     if (channel !== value.channel) {
       return;
     }
 
-    document.querySelector("#radio").volume = 1;
+    const tag = document.querySelector("#radio");
 
-    document.querySelector('#radio').src = `https://ai-cdn.oxynstudios.com/ai.mp3?v=${new Date().getTime()}`;
-    document.querySelector("#radio").play();
+    tag.volume = 1;
+    tag.src = `https://ai-cdn.oxynstudios.com/ai.mp3?v=${new Date().getTime()}`;
+    tag.play();
+
   }
 
   return (
@@ -67,7 +71,7 @@ export default function Home({ channel }) {
           top: "50%",
         }}
       />
-      <audio id="radio" controls="" style={{display: "none"}}>
+      <audio id="radio" style={{display: "none"}}>
         <source src="" />
       </audio>
     </>
