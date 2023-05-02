@@ -28,9 +28,7 @@ export default function Home({ channel }) {
     }
 
     function onFooEvent(value) {
-      setTimeout(() => {
-        callNotify(value);
-      }, 1000);
+      callNotify(value);
     }
 
     function onRefreshEvent() {
