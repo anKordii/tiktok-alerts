@@ -31,6 +31,15 @@ export default function Home({ channel }) {
       callNotify(value);
     }
 
+    function onSkipTTS(value){
+      if (channel !== value.channel) {
+        return;
+      }
+      const tag = document.querySelector("#radio");
+
+      tag.pause();
+    }
+
     function onRefreshEvent() {
       window.location.reload();
     }
@@ -38,8 +47,9 @@ export default function Home({ channel }) {
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
     socket.on("new-tts", onFooEvent);
+    socket.on("skip-tts", onSkipTTS);
     socket.on("refresh-overlay", onRefreshEvent);
-
+    
     return () => {
       socket.off("connect", onConnect);
       socket.off("disconnect", onDisconnect);
