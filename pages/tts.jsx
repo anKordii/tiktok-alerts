@@ -74,7 +74,7 @@ export default function Home({ channel }) {
     const tag = document.querySelector("#radio");
 
     tag.volume = 0.5;
-    tag.src = `https://translate.google.com/translate_tts?ie=UTF-8&tl=pl&client=tw-ob&q=${value.msg}`;
+    tag.src = `https://api.streamelements.com/kappa/v2/speech?voice=pl-PL-Wavenet-C&text=${value.msg}`;
     tag.play();
   }
 
