@@ -31,6 +31,10 @@ export default function Home({ channel }) {
       callNotify(value);
     }
 
+    function onFreeFooEvent(value) {
+      callNotifyFree(value);
+    }
+
     function onSkipTTS(value){
       if (channel !== value.channel) {
         return;
@@ -47,6 +51,7 @@ export default function Home({ channel }) {
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
     socket.on("new-tts", onFooEvent);
+    socket.on("new-free-tts", onFreeFooEvent);
     socket.on("skip-tts", onSkipTTS);
     socket.on("refresh-overlay", onRefreshEvent);
     
@@ -54,10 +59,24 @@ export default function Home({ channel }) {
       socket.off("connect", onConnect);
       socket.off("disconnect", onDisconnect);
       socket.off("new-tts", onFooEvent);
+      socket.off("new-free-tts", onFreeFooEvent);
+      socket.off("skip-tts", onSkipTTS);
       socket.off("refresh-overlay", onRefreshEvent);
     };
     
   }, []);
+
+  function callNotifyFree(value){
+    if (channel !== value.channel) {
+      return;
+    }
+
+    const tag = document.querySelector("#radio");
+
+    tag.volume = 0.5;
+    tag.src = `https://translate.google.com/translate_tts?ie=UTF-8&tl=pl&client=tw-ob&q=${value.msg}`;
+    tag.play();
+  }
 
   function callNotify(value) {
     
@@ -67,8 +86,8 @@ export default function Home({ channel }) {
 
     const tag = document.querySelector("#radio");
 
-    tag.volume = 0.7;
-    tag.src = `https://ai-cdn.oxynstudios.com/ai.mp3?v=${new Date().getTime()}`;
+    tag.volume = 0.5;
+    tag.src = `https://ai-cdn.oxynstudios.com/ai-${value.channel}.mp3?v=${new Date().getTime()}`;
     tag.play();
 
   }
