@@ -67,7 +67,7 @@ export default function Home({ channel }) {
 
     const tag = document.querySelector("#radio");
 
-    tag.volume = 1;
+    tag.volume = 0.7;
     tag.src = `https://ai-cdn.oxynstudios.com/ai.mp3?v=${new Date().getTime()}`;
     tag.play();
 
