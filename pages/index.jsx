@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { socket } from "@components/socket";
 import truncate from "@components/truncate";
 import toast, { Toaster } from "react-hot-toast";
@@ -9,12 +9,14 @@ import getPrices from "@components/getPrices";
 import getMeTime from "@components/getMeTime";
 
 export default function Home({ channel, mute }) {
+  const [status, setStatus] = useState(null);
+
   useEffect(() => {
     if (!channel) {
       toast.error("Zapomniałeś/aś o ?channel= w URL strony.", {
         duration: 6000,
       });
-      
+
       setInterval(() => {
         toast.error("Zapomniałeś/aś o ?channel= w URL strony.", {
           duration: 6000,
@@ -25,11 +27,11 @@ export default function Home({ channel, mute }) {
 
   useEffect(() => {
     function onConnect() {
-      toast.success("Połączono z serwerem - TTVUpdates");
+      setStatus(true);
     }
 
     function onDisconnect() {
-      toast.error("Rozłączono z serwerem - TTVUpdates");
+      setStatus(null);
     }
 
     function onFooEvent(value) {
@@ -53,16 +55,6 @@ export default function Home({ channel, mute }) {
     };
   }, []);
 
-  // useEffect(() => {
-  //   setInterval(() => {
-  //     callNotify({
-  //       user_login: "3xanax",
-  //       amount: 1,
-  //       type: "lean"
-  //     })
-  //   }, 6000);
-  // }, [])
-
   async function callNotify(value) {
     if (channel !== value.channel) {
       return;
@@ -72,7 +64,7 @@ export default function Home({ channel, mute }) {
     const getPrice = getPrices(value.type);
     const overallPrice = getPrice * value.amount;
 
-    if(mute === null || mute === undefined){
+    if (mute === null || mute === undefined) {
       playSound(overallPrice);
     }
 
@@ -154,6 +146,19 @@ export default function Home({ channel, mute }) {
           top: "50%",
         }}
       />
+      <div style={{ position: "absolute", bottom: 0, opacity: 0.2 }}>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <div
+            className={`${
+              status ? "bg-online" : "bg-offline"
+            } rounded-full dot-pulse`}
+            style={{ width: "8px", height: "8px" }}
+          />
+          <span className={`${status ? "txt-online" : "txt-offline"} txt`}>
+            TTVUpdates
+          </span>
+        </div>
+      </div>
     </>
   );
 }
@@ -162,7 +167,7 @@ export async function getServerSideProps({ query }) {
   return {
     props: {
       channel: channel || null,
-      mute: mute || null
+      mute: mute || null,
     },
   };
 }

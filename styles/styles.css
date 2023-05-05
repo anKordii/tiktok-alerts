@@ -6,7 +6,7 @@ body {
   margin: 0;
   color: #fff;
   font-family: 'Roboto', sans-serif;
-  /* background-color: black; */
+  background-color: black;
 }
 .avatar{
     border-radius: 100%;
@@ -54,6 +54,49 @@ p{
     margin-left: 15px;
     transform: rotate(358deg);
     animation: zoom-in-zoom-out 1s ease infinite;
+}
+.bg-online{
+    background-color: rgb(127, 217, 25);
+}
+.txt-online{
+    color: rgb(188 255 113 / 100%);
+}
+
+.bg-offline{
+    background-color: rgb(217 25 25);
+}
+.txt-offline{
+    color: rgb(255 113 113 / 100%);
+}
+
+.rounded-full{
+    border-radius: 9999px;
+}
+.dot-pulse{
+    -webkit-animation: green-dot-pulse .8s ease-in-out infinite alternate;
+    animation: green-dot-pulse .8s ease-in-out infinite alternate;
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+}
+.txt{
+    font-size: .75rem;
+    margin-left: .25rem;
+    font-weight: 500;
+}
+	
+@-webkit-keyframes green-dot-pulse {
+    to {
+        opacity: .2;
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+}
+@keyframes green-dot-pulse {
+    to {
+        opacity: .2;
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
 }
 @keyframes zoom-in-zoom-out {
     0% {
