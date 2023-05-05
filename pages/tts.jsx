@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { socket } from "@components/socket";
 import toast, { Toaster } from "react-hot-toast";
 
-export default function Home({ channel }) {
+export default function Home({ channel, volume }) {
 
   useEffect(() => {
     if (!channel) {
@@ -73,7 +73,7 @@ export default function Home({ channel }) {
 
     const tag = document.querySelector("#radio");
 
-    tag.volume = 0.5;
+    tag.volume = volume;
     tag.src = `https://api.streamelements.com/kappa/v2/speech?voice=pl-PL-Wavenet-C&text=${value.msg}`;
     tag.play();
   }
@@ -86,7 +86,7 @@ export default function Home({ channel }) {
 
     const tag = document.querySelector("#radio");
 
-    tag.volume = 0.5;
+    tag.volume = volume;
     tag.src = `https://ai-cdn.oxynstudios.com/ai-${value.channel}.mp3?v=${new Date().getTime()}`;
     tag.play();
 
@@ -107,10 +107,11 @@ export default function Home({ channel }) {
   );
 }
 export async function getServerSideProps({ query }) {
-  const { channel } = query;
+  const { channel, volume } = query;
   return {
     props: {
       channel: channel || null,
+      volume: Number(volume) || 0.5
     },
   };
 }
