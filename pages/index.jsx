@@ -146,7 +146,7 @@ export default function Home({ channel, mute }) {
           top: "50%",
         }}
       />
-      <div style={{ position: "absolute", bottom: 0, opacity: 0.2 }}>
+      <div style={{ position: "absolute", bottom: 0, opacity: 0.2, marginLeft: ".25rem" }}>
         <div style={{ display: "flex", alignItems: "center" }}>
           <div
             className={`${

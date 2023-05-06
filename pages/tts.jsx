@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { socket } from "@components/socket";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function Home({ channel, volume }) {
+  const [status, setStatus] = useState(null);
 
   useEffect(() => {
     if (!channel) {
@@ -20,11 +21,11 @@ export default function Home({ channel, volume }) {
 
   useEffect(() => {
     function onConnect() {
-      toast.success("Połączono z serwerem - TTVUpdates");
+      setStatus(true);
     }
 
     function onDisconnect() {
-      toast.error("Rozłączono z serwerem - TTVUpdates");
+      setStatus(null);
     }
 
     function onFooEvent(value) {
@@ -103,6 +104,19 @@ export default function Home({ channel, volume }) {
       <audio id="radio" style={{display: "none"}}>
         <source src="" />
       </audio>
+      <div style={{ position: "absolute", bottom: 0, opacity: 0.2, marginLeft: ".25rem" }}>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <div
+            className={`${
+              status ? "bg-online" : "bg-offline"
+            } rounded-full dot-pulse`}
+            style={{ width: "8px", height: "8px" }}
+          />
+          <span className={`${status ? "txt-online" : "txt-offline"} txt`}>
+            TTVUpdates
+          </span>
+        </div>
+      </div>
     </>
   );
 }
