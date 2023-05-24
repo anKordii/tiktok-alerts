@@ -75,7 +75,7 @@ export default function Home({ channel, volume }) {
     const tag = document.querySelector("#radio");
 
     tag.volume = volume;
-    tag.src = `https://api.streamelements.com/kappa/v2/speech?voice=pl-PL-Wavenet-B&text=${value.msg}`;
+    tag.src = `https://api.streamelements.com/kappa/v2/speech?voice=cs-CZ-Wavenet-A&text=${value.msg}`;
     tag.play();
   }
 
